@@ -1,97 +1,127 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# 🧭 Custom Router for React Native CLI
 
-# Getting Started
+This is a custom single-page style router for React Native projects (using React Native CLI), designed to replace `react-navigation` in simple scenarios.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+---
 
-## Step 1: Start Metro
+## ✅ How to Use in a New Project
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+### 1. Copy the Router Files
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+Copy the following files into your new project's `src/router/` folder:
 
-```sh
-# Using npm
-npm start
-
-# OR using Yarn
-yarn start
+```
+src/
+└── router/
+    ├── router.tsx
+    ├── RouterContext.tsx
+    ├── routes.ts
+    └── types.ts
 ```
 
-## Step 2: Build and run your app
+---
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+### 2. Create Screens
 
-### Android
+Create your screens under `src/screens/`. Example:
 
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
+```
+src/
+└── screens/
+    ├── Home.tsx
+    ├── Profile.tsx
+    └── Settings/
+        └── Edit.tsx
 ```
 
-### iOS
+Each screen will use the router context:
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+```tsx
+import { Button, View } from "react-native";
+import { useRouterContext } from "../router/RouterContext";
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
+export default function Home() {
+  const router = useRouterContext();
+  return (
+    <View>
+      <Button title="Go to Profile" onPress={() => router.push("/profile")} />
+    </View>
+  );
+}
 ```
 
-Then, and every time you update your native dependencies, run:
+---
 
-```sh
-bundle exec pod install
+### 3. Define Your Routes
+
+Edit `src/router/routes.ts` to define the path-component mapping:
+
+```ts
+import Home from "../screens/Home";
+import Profile from "../screens/Profile";
+import Edit from "../screens/Settings/Edit";
+import type { RouteDefinition } from "./types";
+
+export const routeDefinitions: RouteDefinition[] = [
+  { path: "/", component: Home },
+  { path: "/profile", component: Profile },
+  { path: "/settings/edit", component: Edit },
+];
 ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+---
 
-```sh
-# Using npm
-npm run ios
+### 4. Use in App.tsx
 
-# OR using Yarn
-yarn ios
+Wrap your app with the router:
+
+```tsx
+import { SafeAreaView, StatusBar, StyleSheet } from "react-native";
+import { useRouter } from "./src/router/router";
+
+function AppContent() {
+  const { Screen } = useRouter();
+  return (
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="dark-content" />
+      <Screen />
+    </SafeAreaView>
+  );
+}
+
+export default function App() {
+  return <AppContent />;
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+---
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+### 5. Done 🎉
 
-## Step 3: Modify your app
+Now your routing system is working!
 
-Now that you have successfully run the app, let's make changes!
+Use `useRouterContext()` inside screens to navigate:
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+```ts
+router.push("/path")
+router.go("/")
+router.pop()
+```
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+---
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+## 🧪 Advanced Ideas
 
-## Congratulations! :tada:
+- Add `AsyncStorage` to persist navigation history
+- Support route params
+- Animate transitions between screens
 
-You've successfully run and modified your React Native App. :partying_face:
+---
 
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+MIT License
