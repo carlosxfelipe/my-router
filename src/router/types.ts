@@ -3,6 +3,7 @@ export type Router = {
   push: (path: string) => void;
   pop: () => void;
   replace: (path: string) => void;
+  params: Record<string, string>;
 };
 
 export type RouteComponent = React.ComponentType<any>;

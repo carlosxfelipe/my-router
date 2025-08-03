@@ -5,6 +5,6 @@ import type { RouteDefinition } from "./types";
 
 export const routeDefinitions: RouteDefinition[] = [
   { path: "/", component: Home },
-  { path: "/profile", component: Profile },
+  { path: "/profile/:id", component: Profile },
   { path: "/settings/edit", component: Edit },
 ];

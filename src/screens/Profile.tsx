@@ -5,11 +5,16 @@ import { useRouterContext } from "../router/RouterContext";
 
 export default function Profile() {
   const router = useRouterContext();
+  const { id } = router.params;
 
   return (
     <ThemedView style={styles.container}>
       <ThemedText type="title" style={styles.title}>
         👤 Perfil
+      </ThemedText>
+
+      <ThemedText type="subtitle" style={styles.sectionTitle}>
+        ID do usuário: {id ?? "não informado"}
       </ThemedText>
 
       <View style={styles.section}>

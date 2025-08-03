@@ -22,8 +22,8 @@ export default function Home() {
 
           <View style={styles.buttonGroup}>
             <Button
-              title="Ir para Perfil"
-              onPress={() => router.push("/profile")}
+              title="Ir para Perfil do Usuário 123"
+              onPress={() => router.push("/profile/123")}
             />
             <View style={styles.spacer} />
             <Button
