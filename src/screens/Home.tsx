@@ -1,29 +1,38 @@
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, View } from "react-native";
 import type { Router } from "../router/types";
+import { ThemedView } from "../components/ThemedView";
+import { ThemedText } from "../components/ThemedText";
+import { useTheme } from "../theme/ThemeContext";
 
 type Props = {
   router: Router;
 };
 
 export default function Home({ router }: Props) {
-  function goToProfile() {
-    router.push("/profile");
-  }
-
-  function goToEditSettings() {
-    router.push("/settings/edit");
-  }
+  const { theme, toggleTheme } = useTheme();
 
   return (
-    <View style={styles.container}>
-      <Text>🏠 Tela Home</Text>
+    <ThemedView style={styles.container}>
+      <ThemedText>🏠 Tela Home</ThemedText>
 
-      <Button title="Ir para Perfil" onPress={goToProfile} />
+      <View style={styles.spacer} />
 
-      <View style={{ height: 12 }} />
+      <Button title="Ir para Perfil" onPress={() => router.push("/profile")} />
 
-      <Button title="Editar Configurações" onPress={goToEditSettings} />
-    </View>
+      <View style={styles.spacer} />
+
+      <Button
+        title="Editar Configurações"
+        onPress={() => router.push("/settings/edit")}
+      />
+
+      <View style={styles.spacer} />
+
+      <Button
+        title={`Alternar para tema ${theme === "light" ? "escuro" : "claro"}`}
+        onPress={toggleTheme}
+      />
+    </ThemedView>
   );
 }
 
@@ -32,5 +41,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    padding: 16,
+  },
+  spacer: {
+    height: 12,
   },
 });

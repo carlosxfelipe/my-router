@@ -2,19 +2,34 @@ import {
   SafeAreaView,
   StatusBar,
   StyleSheet,
-  useColorScheme,
 } from "react-native";
 import { useRouter } from "./src/router/router";
+import { ThemeProvider, useTheme } from "./src/theme/ThemeContext";
 
-function App() {
-  const isDarkMode = useColorScheme() === "dark";
-  const { Screen, push } = useRouter();
+function AppContent() {
+  const { Screen, router } = useRouter();
+  const { theme } = useTheme();
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
-      <Screen router={{ push }} />
+    <SafeAreaView
+      style={[
+        styles.container,
+        { backgroundColor: theme === "dark" ? "#000" : "#fff" },
+      ]}
+    >
+      <StatusBar
+        barStyle={theme === "dark" ? "light-content" : "dark-content"}
+      />
+      <Screen router={router} />
     </SafeAreaView>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
   );
 }
 
@@ -23,5 +38,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
-export default App;

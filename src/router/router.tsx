@@ -1,21 +1,34 @@
 import React, { useState } from "react";
 import { Text } from "react-native";
-import { routes } from "./routes";
+import type { RouteComponent, Router } from "./types";
+import { routeDefinitions } from "./routes";
 
-export function useRouter() {
-  const [path, setPath] = useState("/");
+const NotFound: RouteComponent = () => <Text>404 - Página não encontrada</Text>;
 
-  const push = (newPath: string) => {
-    if (routes[newPath]) {
-      setPath(newPath);
-    } else {
-      setPath("/"); // fallback para Home
-    }
+export function useRouter(): { Screen: RouteComponent; router: Router } {
+  const [history, setHistory] = useState<string[]>(["/"]);
+
+  const findComponent = (path: string): RouteComponent => {
+    const route = routeDefinitions.find((r) => r.path === path);
+    return route ? route.component : NotFound;
   };
 
-  const Screen = routes[path] ?? (() => {
-    return <Text>404</Text>;
-  });
+  const currentPath = history[history.length - 1];
+  const CurrentComponent = findComponent(currentPath);
 
-  return { Screen, push };
+  const go = (path: string) => setHistory([path]);
+  const push = (path: string) => setHistory((prev) => [...prev, path]);
+  const pop = () =>
+    setHistory((prev) => (prev.length > 1 ? prev.slice(0, -1) : prev));
+
+  const router: Router = { go, push, pop };
+
+  const Screen = (props: any) => (
+    <CurrentComponent
+      {...props}
+      router={router}
+    />
+  );
+
+  return { Screen, router };
 }

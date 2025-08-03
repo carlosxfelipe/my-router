@@ -1,9 +1,10 @@
 import Home from "../screens/Home";
 import Profile from "../screens/Profile";
 import Edit from "../screens/Settings/Edit";
+import type { RouteDefinition } from "./types";
 
-export const routes: Record<string, React.ComponentType<any>> = {
-  "/": Home,
-  "/profile": Profile,
-  "/settings/edit": Edit,
-};
+export const routeDefinitions: RouteDefinition[] = [
+  { path: "/", component: Home },
+  { path: "/profile", component: Profile },
+  { path: "/settings/edit", component: Edit },
+];
