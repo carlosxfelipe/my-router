@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { Text } from "react-native";
 import type { RouteComponent, Router } from "./types";
 import { routeDefinitions } from "./routes";
+import { RouterProvider } from "./RouterContext";
 
 const NotFound: RouteComponent = () => <Text>404 - Página não encontrada</Text>;
 
-export function useRouter(): { Screen: RouteComponent; router: Router } {
+export function useRouter(): { Screen: RouteComponent } {
   const [history, setHistory] = useState<string[]>(["/"]);
 
   const findComponent = (path: string): RouteComponent => {
@@ -23,12 +24,11 @@ export function useRouter(): { Screen: RouteComponent; router: Router } {
 
   const router: Router = { go, push, pop };
 
-  const Screen = (props: any) => (
-    <CurrentComponent
-      {...props}
-      router={router}
-    />
+  const Screen: RouteComponent = (props) => (
+    <RouterProvider value={router}>
+      <CurrentComponent {...props} />
+    </RouterProvider>
   );
 
-  return { Screen, router };
+  return { Screen };
 }

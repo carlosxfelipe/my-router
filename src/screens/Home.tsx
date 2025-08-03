@@ -1,37 +1,51 @@
-import { Button, StyleSheet, View } from "react-native";
-import type { Router } from "../router/types";
+import { Button, ScrollView, StyleSheet, View } from "react-native";
 import { ThemedView } from "../components/ThemedView";
 import { ThemedText } from "../components/ThemedText";
 import { useTheme } from "../theme/ThemeContext";
+import { useRouterContext } from "../router/RouterContext";
 
-type Props = {
-  router: Router;
-};
-
-export default function Home({ router }: Props) {
+export default function Home() {
   const { theme, toggleTheme } = useTheme();
+  const router = useRouterContext();
 
   return (
     <ThemedView style={styles.container}>
-      <ThemedText>🏠 Tela Home</ThemedText>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <ThemedText type="title" style={styles.title}>
+          🏠 Tela Home
+        </ThemedText>
 
-      <View style={styles.spacer} />
+        <View style={styles.section}>
+          <ThemedText type="subtitle" style={styles.sectionTitle}>
+            Navegação
+          </ThemedText>
 
-      <Button title="Ir para Perfil" onPress={() => router.push("/profile")} />
+          <View style={styles.buttonGroup}>
+            <Button
+              title="Ir para Perfil"
+              onPress={() => router.push("/profile")}
+            />
+            <View style={styles.spacer} />
+            <Button
+              title="Editar Configurações"
+              onPress={() => router.push("/settings/edit")}
+            />
+          </View>
+        </View>
 
-      <View style={styles.spacer} />
+        <View style={styles.section}>
+          <ThemedText type="subtitle" style={styles.sectionTitle}>
+            Aparência
+          </ThemedText>
 
-      <Button
-        title="Editar Configurações"
-        onPress={() => router.push("/settings/edit")}
-      />
-
-      <View style={styles.spacer} />
-
-      <Button
-        title={`Alternar para tema ${theme === "light" ? "escuro" : "claro"}`}
-        onPress={toggleTheme}
-      />
+          <Button
+            title={`Alternar para tema ${
+              theme === "light" ? "escuro" : "claro"
+            }`}
+            onPress={toggleTheme}
+          />
+        </View>
+      </ScrollView>
     </ThemedView>
   );
 }
@@ -39,9 +53,25 @@ export default function Home({ router }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 16,
+    paddingHorizontal: 20,
+    paddingTop: 40,
+  },
+  scrollContent: {
+    paddingBottom: 40,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: "bold",
+    marginBottom: 24,
+  },
+  section: {
+    marginBottom: 32,
+  },
+  sectionTitle: {
+    marginBottom: 12,
+  },
+  buttonGroup: {
+    gap: 12,
   },
   spacer: {
     height: 12,

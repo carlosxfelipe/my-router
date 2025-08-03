@@ -1,20 +1,24 @@
-import { Button, StyleSheet } from "react-native";
-import type { Router } from "../../router/types";
+import { Button, StyleSheet, View } from "react-native";
 import { ThemedView } from "../../components/ThemedView";
 import { ThemedText } from "../../components/ThemedText";
+import { useRouterContext } from "../../router/RouterContext";
 
-type Props = {
-  router: Router;
-};
+export default function Edit() {
+  const router = useRouterContext();
 
-export default function Edit({ router }: Props) {
   return (
     <ThemedView style={styles.container}>
-      <ThemedText>✏️ Tela de Edição de Configurações</ThemedText>
+      <ThemedText type="title" style={styles.title}>
+        ✏️ Editar Configurações
+      </ThemedText>
 
-      <ThemedView style={styles.spacer} />
+      <View style={styles.section}>
+        <ThemedText type="subtitle" style={styles.sectionTitle}>
+          Ações
+        </ThemedText>
 
-      <Button title="Voltar para Home" onPress={() => router.go("/")} />
+        <Button title="Voltar para Home" onPress={() => router.go("/")} />
+      </View>
     </ThemedView>
   );
 }
@@ -22,11 +26,18 @@ export default function Edit({ router }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 16,
+    paddingHorizontal: 20,
+    paddingTop: 40,
   },
-  spacer: {
-    height: 12,
+  title: {
+    fontSize: 28,
+    fontWeight: "bold",
+    marginBottom: 24,
+  },
+  section: {
+    marginBottom: 32,
+  },
+  sectionTitle: {
+    marginBottom: 12,
   },
 });
