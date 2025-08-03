@@ -21,8 +21,10 @@ export function useRouter(): { Screen: RouteComponent } {
   const push = (path: string) => setHistory((prev) => [...prev, path]);
   const pop = () =>
     setHistory((prev) => (prev.length > 1 ? prev.slice(0, -1) : prev));
+  const replace = (path: string) =>
+    setHistory((prev) => [...prev.slice(0, -1), path]);
 
-  const router: Router = { go, push, pop };
+  const router: Router = { go, push, pop, replace };
 
   const Screen: RouteComponent = (props) => (
     <RouterProvider value={router}>
