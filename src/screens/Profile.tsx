@@ -1,7 +1,8 @@
-import { Button, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { ThemedView } from "../components/ThemedView";
 import { ThemedText } from "../components/ThemedText";
 import { useRouterContext } from "../router/RouterContext";
+import { ThemedButton } from "../components/ ThemedButton";
 
 export default function Profile() {
   const router = useRouterContext();
@@ -22,7 +23,10 @@ export default function Profile() {
           Ações
         </ThemedText>
 
-        <Button title="Voltar para Home" onPress={() => router.push("/")} />
+        <ThemedButton
+          title="Voltar para Home"
+          onPress={() => router.push("/")}
+        />
       </View>
     </ThemedView>
   );

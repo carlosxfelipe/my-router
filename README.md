@@ -119,7 +119,6 @@ router.pop()
 ## 🧪 Advanced Ideas
 
 - Add `AsyncStorage` to persist navigation history
-- Support route params
 - Animate transitions between screens
 
 ---

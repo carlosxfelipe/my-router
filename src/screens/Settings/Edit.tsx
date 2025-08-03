@@ -1,7 +1,8 @@
-import { Button, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { ThemedView } from "../../components/ThemedView";
 import { ThemedText } from "../../components/ThemedText";
 import { useRouterContext } from "../../router/RouterContext";
+import { ThemedButton } from "../../components/ ThemedButton";
 
 export default function Edit() {
   const router = useRouterContext();
@@ -17,7 +18,7 @@ export default function Edit() {
           Ações
         </ThemedText>
 
-        <Button title="Voltar para Home" onPress={() => router.go("/")} />
+        <ThemedButton title="Voltar para Home" onPress={() => router.go("/")} />
       </View>
     </ThemedView>
   );

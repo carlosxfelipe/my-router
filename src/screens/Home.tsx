@@ -1,8 +1,9 @@
-import { Button, ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { ThemedView } from "../components/ThemedView";
 import { ThemedText } from "../components/ThemedText";
 import { useTheme } from "../theme/ThemeContext";
 import { useRouterContext } from "../router/RouterContext";
+import { ThemedButton } from "../components/ ThemedButton";
 
 export default function Home() {
   const { theme, toggleTheme } = useTheme();
@@ -21,12 +22,12 @@ export default function Home() {
           </ThemedText>
 
           <View style={styles.buttonGroup}>
-            <Button
+            <ThemedButton
               title="Ir para Perfil do Usuário 123"
               onPress={() => router.push("/profile/123")}
             />
             <View style={styles.spacer} />
-            <Button
+            <ThemedButton
               title="Editar Configurações"
               onPress={() => router.push("/settings/edit")}
             />
@@ -38,7 +39,7 @@ export default function Home() {
             Aparência
           </ThemedText>
 
-          <Button
+          <ThemedButton
             title={`Alternar para tema ${
               theme === "light" ? "escuro" : "claro"
             }`}
