@@ -7,7 +7,7 @@ import { useRouter } from "./src/router/router";
 import { ThemeProvider, useTheme } from "./src/theme/ThemeContext";
 
 function AppContent() {
-  const { Screen, router } = useRouter();
+  const { Screen } = useRouter();
   const { theme } = useTheme();
 
   return (
@@ -20,7 +20,7 @@ function AppContent() {
       <StatusBar
         barStyle={theme === "dark" ? "light-content" : "dark-content"}
       />
-      <Screen router={router} />
+      <Screen />
     </SafeAreaView>
   );
 }
