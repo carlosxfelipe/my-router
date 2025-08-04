@@ -4,6 +4,7 @@ export type Router = {
   pop: () => void;
   replace: (path: string) => void;
   params: Record<string, string>;
+  currentPath: string;
 };
 
 export type RouteComponent = React.ComponentType<any>;

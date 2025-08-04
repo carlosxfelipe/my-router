@@ -2,6 +2,7 @@ import { SafeAreaView, StatusBar, StyleSheet } from "react-native";
 import { useRouter } from "./src/router/router";
 import { ThemeProvider, useTheme } from "./src/theme/ThemeContext";
 import { useThemeColor } from "./src/hooks/useThemeColor";
+import { BottomNavigationBar } from "./src/components/BottomNavigation";
 
 function AppContent() {
   const { Screen } = useRouter();
@@ -15,6 +16,7 @@ function AppContent() {
         barStyle={theme === "dark" ? "light-content" : "dark-content"}
       />
       <Screen />
+      <BottomNavigationBar />
     </SafeAreaView>
   );
 }

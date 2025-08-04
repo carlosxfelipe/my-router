@@ -60,7 +60,14 @@ export function useRouter(): { Screen: RouteComponent } {
   const replace = (path: string) =>
     setHistory((prev) => [...prev.slice(0, -1), path]);
 
-  const router: Router = { go, push, pop, replace, params: routeParams };
+  const router: Router = {
+    go,
+    push,
+    pop,
+    replace,
+    params: routeParams,
+    currentPath,
+  };
 
   const Screen: RouteComponent = (props) => (
     <RouterProvider value={router}>
