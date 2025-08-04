@@ -1,23 +1,17 @@
-import {
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-} from "react-native";
+import { SafeAreaView, StatusBar, StyleSheet } from "react-native";
 import { useRouter } from "./src/router/router";
 import { ThemeProvider, useTheme } from "./src/theme/ThemeContext";
+import { useThemeColor } from "./src/hooks/useThemeColor";
 
 function AppContent() {
   const { Screen } = useRouter();
   const { theme } = useTheme();
+  const bg = useThemeColor({}, "background");
 
   return (
-    <SafeAreaView
-      style={[
-        styles.container,
-        { backgroundColor: theme === "dark" ? "#000" : "#fff" },
-      ]}
-    >
+    <SafeAreaView style={[styles.container, { backgroundColor: bg }]}>
       <StatusBar
+        backgroundColor={bg}
         barStyle={theme === "dark" ? "light-content" : "dark-content"}
       />
       <Screen />

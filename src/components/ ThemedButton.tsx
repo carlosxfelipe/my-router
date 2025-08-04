@@ -27,7 +27,7 @@ export function ThemedButton({
 }: ThemedButtonProps) {
   const backgroundColor = useThemeColor(
     { light: lightColor ?? "#e0e0e0", dark: darkColor ?? "#444" },
-    "background"
+    "background",
   );
   const textColor = useThemeColor({}, "text");
 
