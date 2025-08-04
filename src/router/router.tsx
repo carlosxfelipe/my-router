@@ -1,8 +1,14 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Text } from "react-native";
 import type { RouteComponent, Router } from "./types";
 import { routeDefinitions } from "./routes";
 import { RouterProvider } from "./RouterContext";
+
+type ScreenProps = {
+  children?:
+    | ((props: { component: RouteComponent }) => React.ReactNode)
+    | React.ReactNode;
+};
 
 const NotFound: RouteComponent = () => <Text>404 - Página não encontrada</Text>;
 
@@ -36,24 +42,19 @@ function matchPath(
 export function useRouter(): { Screen: RouteComponent } {
   const [history, setHistory] = useState<string[]>(["/"]);
 
-  let routeParams: Record<string, string> = {};
+  const currentPath = history[history.length - 1];
 
-  const findComponent = (path: string): RouteComponent => {
+  const { component: CurrentComponent, params: routeParams } = useMemo(() => {
     for (const route of routeDefinitions) {
-      const { matched, params } = matchPath(route.path, path);
+      const { matched, params } = matchPath(route.path, currentPath);
       if (matched) {
-        routeParams = params;
-        return route.component;
+        return { component: route.component, params };
       }
     }
-    routeParams = {};
-    return NotFound;
-  };
+    return { component: NotFound, params: {} };
+  }, [currentPath]);
 
-  const currentPath = history[history.length - 1];
-  const CurrentComponent = findComponent(currentPath);
-
-  const go = (path: string) => setHistory([path]);
+  const reset = (path: string) => setHistory([path]);
   const push = (path: string) => setHistory((prev) => [...prev, path]);
   const pop = () =>
     setHistory((prev) => (prev.length > 1 ? prev.slice(0, -1) : prev));
@@ -61,7 +62,7 @@ export function useRouter(): { Screen: RouteComponent } {
     setHistory((prev) => [...prev.slice(0, -1), path]);
 
   const router: Router = {
-    go,
+    reset,
     push,
     pop,
     replace,
@@ -69,14 +70,22 @@ export function useRouter(): { Screen: RouteComponent } {
     currentPath,
   };
 
-  const Screen: RouteComponent = ({ children, ...props }) => (
-    <RouterProvider value={router}>
-      <>
-        <CurrentComponent {...props} />
-        {children}
-      </>
-    </RouterProvider>
-  );
+  const Screen: React.FC<ScreenProps> = ({ children, ...props }) => {
+    return (
+      <RouterProvider value={router}>
+        {typeof children === "function"
+          ? (
+            children({ component: CurrentComponent })
+          )
+          : (
+            <>
+              <CurrentComponent {...props} />
+              {children}
+            </>
+          )}
+      </RouterProvider>
+    );
+  };
 
   return { Screen };
 }

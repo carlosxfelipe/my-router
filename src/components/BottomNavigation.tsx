@@ -25,7 +25,7 @@ export function BottomNavigationBar() {
   const router = useRouterContext();
   const currentPath = router.currentPath;
 
-  const backgroundColor = useThemeColor({}, "surface");
+  const backgroundColor = useThemeColor({}, "background");
   const textColor = useThemeColor({}, "text");
 
   return (

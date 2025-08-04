@@ -18,7 +18,10 @@ export default function Edit() {
           Ações
         </ThemedText>
 
-        <ThemedButton title="Voltar para Home" onPress={() => router.go("/")} />
+        <ThemedButton
+          title="Voltar para Home"
+          onPress={() => router.reset("/")}
+        />
       </View>
     </ThemedView>
   );
