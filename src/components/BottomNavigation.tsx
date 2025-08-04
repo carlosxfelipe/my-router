@@ -17,8 +17,8 @@ type TabItem = {
 
 const TABS: TabItem[] = [
   { label: "Início", route: "/", emoji: ["🏠", "🏡"] },
-  { label: "Pedidos", route: "/orders", emoji: ["🛒", "🧺"] },
-  { label: "Perfil", route: "/profile", emoji: ["👤", "👥"] },
+  { label: "Config", route: "/settings/edit", emoji: ["⚙️", "🔧"] },
+  { label: "Perfil", route: "/profile/123", emoji: ["👤", "👥"] },
 ];
 
 export function BottomNavigationBar() {

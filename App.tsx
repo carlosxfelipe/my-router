@@ -15,8 +15,10 @@ function AppContent() {
         backgroundColor={bg}
         barStyle={theme === "dark" ? "light-content" : "dark-content"}
       />
-      <Screen />
-      <BottomNavigationBar />
+      {/* <Screen /> */}
+      <Screen>
+        <BottomNavigationBar />
+      </Screen>
     </SafeAreaView>
   );
 }

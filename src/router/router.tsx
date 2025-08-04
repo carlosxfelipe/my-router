@@ -69,9 +69,12 @@ export function useRouter(): { Screen: RouteComponent } {
     currentPath,
   };
 
-  const Screen: RouteComponent = (props) => (
+  const Screen: RouteComponent = ({ children, ...props }) => (
     <RouterProvider value={router}>
-      <CurrentComponent {...props} />
+      <>
+        <CurrentComponent {...props} />
+        {children}
+      </>
     </RouterProvider>
   );
 
