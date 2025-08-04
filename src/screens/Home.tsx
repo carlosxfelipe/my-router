@@ -3,7 +3,7 @@ import { ThemedView } from "../components/ThemedView";
 import { ThemedText } from "../components/ThemedText";
 import { useTheme } from "../theme/ThemeContext";
 import { useRouterContext } from "../router/RouterContext";
-import { ThemedButton } from "../components/ ThemedButton";
+import { ThemedButton } from "../components/ThemedButton";
 
 export default function Home() {
   const { theme, toggleTheme } = useTheme();

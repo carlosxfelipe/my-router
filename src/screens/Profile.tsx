@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 import { ThemedView } from "../components/ThemedView";
 import { ThemedText } from "../components/ThemedText";
 import { useRouterContext } from "../router/RouterContext";
-import { ThemedButton } from "../components/ ThemedButton";
+import { ThemedButton } from "../components/ThemedButton";
 
 export default function Profile() {
   const router = useRouterContext();
