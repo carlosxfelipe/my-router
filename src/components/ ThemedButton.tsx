@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   type TextStyle,
+  View,
   type ViewStyle,
 } from "react-native";
 import { useThemeColor } from "../hooks/useThemeColor";
@@ -17,6 +18,8 @@ type ThemedButtonProps = PressableProps & {
   buttonStyle?: ViewStyle;
   lightColor?: string;
   darkColor?: string;
+  iconLeft?: React.ReactNode;
+  iconRight?: React.ReactNode;
 };
 
 export function ThemedButton({
@@ -25,6 +28,9 @@ export function ThemedButton({
   buttonStyle,
   lightColor,
   darkColor,
+  iconLeft,
+  iconRight,
+  disabled,
   ...rest
 }: ThemedButtonProps) {
   const backgroundColor = useThemeColor(
@@ -33,23 +39,34 @@ export function ThemedButton({
   );
   const contrastColor = getContrastingTextColor(backgroundColor);
 
+  const platformShadow = Platform.OS === "ios"
+    ? styles.iosShadow
+    : styles.androidElevation;
+
+  const finalOpacity = disabled ? 0.5 : 1;
+
   return (
     <Pressable
+      disabled={disabled}
       style={({ pressed }) => [
         styles.button,
         {
           backgroundColor,
-          opacity: pressed ? 0.95 : 1,
+          opacity: pressed && !disabled ? 0.95 : finalOpacity,
         },
-        Platform.OS === "ios" ? styles.iosShadow : styles.androidElevation,
+        platformShadow,
         buttonStyle,
       ]}
-      android_ripple={{ color: "#ffffff22" }}
+      android_ripple={!disabled ? { color: "#ffffff22" } : undefined}
       {...rest}
     >
-      <Text style={[styles.text, { color: contrastColor }, textStyle]}>
-        {title}
-      </Text>
+      <View style={styles.content}>
+        {iconLeft && <View style={styles.icon}>{iconLeft}</View>}
+        <Text style={[styles.text, { color: contrastColor }, textStyle]}>
+          {title}
+        </Text>
+        {iconRight && <View style={styles.icon}>{iconRight}</View>}
+      </View>
     </Pressable>
   );
 }
@@ -61,6 +78,13 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: "center",
     justifyContent: "center",
+  },
+  content: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  icon: {
+    marginHorizontal: 6,
   },
   iosShadow: {
     shadowColor: "#000",

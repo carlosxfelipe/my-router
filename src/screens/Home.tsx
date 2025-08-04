@@ -44,6 +44,11 @@ export default function Home() {
               theme === "light" ? "escuro" : "claro"
             }`}
             onPress={toggleTheme}
+            iconRight={
+              <View>
+                <ThemedText>🌓</ThemedText>
+              </View>
+            }
           />
         </View>
       </ScrollView>
