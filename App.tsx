@@ -1,30 +1,47 @@
-import { SafeAreaView, StatusBar, StyleSheet, View } from "react-native";
+import {
+  Platform,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  View,
+} from "react-native";
 import { useRouter } from "./src/router/router";
 import { ThemeProvider, useTheme } from "./src/theme/ThemeContext";
 import { useThemeColor } from "./src/hooks/useThemeColor";
 import { BottomNavigationBar } from "./src/components/BottomNavigation";
-import { RouteComponent } from "./src/router/types";
 import { Header } from "./src/components/Header";
+import { RouteComponent } from "./src/router/types";
 
 function MainLayout({ Content }: { Content: React.ComponentType }) {
   const { theme } = useTheme();
-  const bg = useThemeColor({}, "header");
+  const headerColor = useThemeColor({}, "header");
+  const bottomColor = useThemeColor({}, "bottom");
+  const textColor = useThemeColor({}, "text");
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: bg }]}>
-      <StatusBar
-        backgroundColor={bg}
-        barStyle={theme === "dark" ? "light-content" : "dark-content"}
-      />
+    <>
+      {/* SafeArea para o topo (notch) */}
+      <SafeAreaView style={{ backgroundColor: headerColor }} />
 
-      <Header />
+      <View style={styles.container}>
+        <StatusBar
+          backgroundColor={headerColor}
+          barStyle={theme === "dark" ? "light-content" : "dark-content"}
+        />
 
-      <View style={styles.content}>
-        <Content />
+        <Header backgroundColor={headerColor} textColor={textColor} />
+
+        <View style={styles.content}>
+          <Content />
+        </View>
+
+        <View style={{ backgroundColor: bottomColor }}>
+          <BottomNavigationBar />
+          {/* Área de gesto no iOS */}
+          {Platform.OS === "ios" && <View style={{ height: 34 }} />}
+        </View>
       </View>
-
-      <BottomNavigationBar />
-    </SafeAreaView>
+    </>
   );
 }
 

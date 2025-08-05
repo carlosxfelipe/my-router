@@ -6,17 +6,19 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useThemeColor } from "../hooks/useThemeColor";
 import { useRouterContext } from "../router/RouterContext";
 
 type HeaderProps = {
   title?: string;
   icon?: string | React.ReactNode;
+  backgroundColor?: string;
+  textColor?: string;
 };
 
-export function Header({ title, icon }: HeaderProps) {
-  const bg = useThemeColor({}, "header");
-  const textColor = useThemeColor({}, "text");
+export function Header(
+  { title, icon, backgroundColor = "#FFFFFF", textColor = "#000000" }:
+    HeaderProps,
+) {
   const router = useRouterContext();
 
   const isHome = router.currentPath === "/";
@@ -24,7 +26,7 @@ export function Header({ title, icon }: HeaderProps) {
   const routeIcon = icon ?? getIcon(router.currentPath);
 
   return (
-    <View style={[styles.container, { backgroundColor: bg }]}>
+    <View style={[styles.container, { backgroundColor }]}>
       {!isHome && (
         <TouchableOpacity
           onPress={router.pop}

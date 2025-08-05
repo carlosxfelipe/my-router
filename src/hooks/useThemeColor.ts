@@ -41,19 +41,14 @@ const defaultColors = {
     dark: "#938F99",
   },
   header: {
-    light: "#F7F2FA",
-    dark: "#2A1C3A",
+    light: "#FFFFFF",
+    dark: "#1C1B1F",
   },
   bottom: {
-    light: "#EFE7FD",
-    dark: "#1E1A22",
+    light: "#FFFFFF",
+    dark: "#1C1B1F",
   },
 };
-
-// TODO: Corrigir espaço com a cor do header abaixo do BottomNavigationBar no iOS.
-// A área segura inferior (safe area bottom) não está sendo preenchida com a cor do bottom.
-// Atualmente, o SafeAreaView cobre apenas o topo (header), e o BottomNavigationBar não considera o padding inferior.
-// Sugestão: adicionar paddingBottom no BottomNavigationBar (ex: Platform.OS === "ios" ? 20 : 0)
 
 export function useThemeColor(
   props: Colors,
