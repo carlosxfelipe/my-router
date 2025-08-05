@@ -4,6 +4,7 @@ import { ThemeProvider, useTheme } from "./src/theme/ThemeContext";
 import { useThemeColor } from "./src/hooks/useThemeColor";
 import { BottomNavigationBar } from "./src/components/BottomNavigation";
 import { RouteComponent } from "./src/router/types";
+import { Header } from "./src/components/Header";
 
 function MainLayout({ Content }: { Content: React.ComponentType }) {
   const { theme } = useTheme();
@@ -15,6 +16,8 @@ function MainLayout({ Content }: { Content: React.ComponentType }) {
         backgroundColor={bg}
         barStyle={theme === "dark" ? "light-content" : "dark-content"}
       />
+
+      <Header />
 
       <View style={styles.content}>
         <Content />

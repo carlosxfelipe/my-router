@@ -40,7 +40,7 @@ export function BottomNavigationBar() {
             key={tab.route}
             style={styles.tab}
             onPress={() => {
-              if (!isActive) router.replace(tab.route);
+              if (!isActive) router.push(tab.route);
             }}
             activeOpacity={0.7}
             accessibilityRole="button"
