@@ -9,10 +9,6 @@ export default function Edit() {
 
   return (
     <ThemedView style={styles.container}>
-      <ThemedText type="title" style={styles.title}>
-        ✏️ Editar Configurações
-      </ThemedText>
-
       <View style={styles.section}>
         <ThemedText type="subtitle" style={styles.sectionTitle}>
           Ações
@@ -30,8 +26,7 @@ export default function Edit() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 40,
+    padding: 16,
   },
   title: {
     fontSize: 28,

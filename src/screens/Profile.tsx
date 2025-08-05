@@ -10,10 +10,6 @@ export default function Profile() {
 
   return (
     <ThemedView style={styles.container}>
-      <ThemedText type="title" style={styles.title}>
-        👤 Perfil
-      </ThemedText>
-
       <ThemedText type="subtitle" style={styles.sectionTitle}>
         ID do usuário: {id ?? "não informado"}
       </ThemedText>
@@ -35,8 +31,7 @@ export default function Profile() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 40,
+    padding: 16,
   },
   title: {
     fontSize: 28,

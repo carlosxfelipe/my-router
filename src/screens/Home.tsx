@@ -12,10 +12,6 @@ export default function Home() {
   return (
     <ThemedView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <ThemedText type="title" style={styles.title}>
-          🏠 Tela Home
-        </ThemedText>
-
         <View style={styles.section}>
           <ThemedText type="subtitle" style={styles.sectionTitle}>
             Navegação
@@ -59,8 +55,7 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 40,
+    padding: 16,
   },
   scrollContent: {
     paddingBottom: 40,
