@@ -39,7 +39,7 @@ function matchPath(
   return { matched: true, params };
 }
 
-export function useRouter(): { Screen: RouteComponent } {
+export function useRouter(): { RouterOutlet: RouteComponent } {
   const [history, setHistory] = useState<string[]>(["/"]);
 
   const currentPath = history[history.length - 1];
@@ -70,7 +70,7 @@ export function useRouter(): { Screen: RouteComponent } {
     currentPath,
   };
 
-  const Screen: React.FC<ScreenProps> = ({ children, ...props }) => {
+  const RouterOutlet: React.FC<ScreenProps> = ({ children, ...props }) => {
     return (
       <RouterProvider value={router}>
         {typeof children === "function"
@@ -87,5 +87,5 @@ export function useRouter(): { Screen: RouteComponent } {
     );
   };
 
-  return { Screen };
+  return { RouterOutlet };
 }

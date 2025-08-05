@@ -5,7 +5,7 @@ import { useThemeColor } from "./src/hooks/useThemeColor";
 import { BottomNavigationBar } from "./src/components/BottomNavigation";
 import { RouteComponent } from "./src/router/types";
 
-function AppContent({ Content }: { Content: React.ComponentType }) {
+function MainLayout({ Content }: { Content: React.ComponentType }) {
   const { theme } = useTheme();
   const bg = useThemeColor({}, "background");
 
@@ -16,27 +16,25 @@ function AppContent({ Content }: { Content: React.ComponentType }) {
         barStyle={theme === "dark" ? "light-content" : "dark-content"}
       />
 
-      {/* Área principal com a tela da rota */}
       <View style={styles.content}>
         <Content />
       </View>
 
-      {/* Barra de navegação fixa */}
       <BottomNavigationBar />
     </SafeAreaView>
   );
 }
 
 export default function App() {
-  const { Screen } = useRouter();
+  const { RouterOutlet } = useRouter();
 
   return (
     <ThemeProvider>
-      <Screen>
-        {({ component }: { component: RouteComponent }) => (
-          <AppContent Content={component} />
+      <RouterOutlet>
+        {({ component: CurrentScreen }: { component: RouteComponent }) => (
+          <MainLayout Content={CurrentScreen} />
         )}
-      </Screen>
+      </RouterOutlet>
     </ThemeProvider>
   );
 }
