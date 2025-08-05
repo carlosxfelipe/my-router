@@ -90,28 +90,40 @@ export const routeDefinitions: RouteDefinition[] = [
 Wrap your app with the custom router:
 
 ```tsx
-import { SafeAreaView, StatusBar, StyleSheet } from "react-native";
+import { SafeAreaView, StatusBar, StyleSheet, View } from "react-native";
 import { useRouter } from "./src/router/router";
+import { ThemeProvider } from "./src/theme/ThemeContext";
+import { BottomNavigationBar } from "./src/components/BottomNavigation";
 
-function AppContent() {
-  const { Screen } = useRouter();
-
+function MainLayout({ Content }: { Content: React.ComponentType }) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      <Screen />
+      <View style={styles.content}>
+        <Content />
+      </View>
+      <BottomNavigationBar />
     </SafeAreaView>
   );
 }
 
 export default function App() {
-  return <AppContent />;
+  const { RouterOutlet } = useRouter();
+
+  return (
+    <ThemeProvider>
+      <RouterOutlet>
+        {({ component: CurrentScreen }) => (
+          <MainLayout Content={CurrentScreen} />
+        )}
+      </RouterOutlet>
+    </ThemeProvider>
+  );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  container: { flex: 1 },
+  content: { flex: 1 },
 });
 ```
 
@@ -129,7 +141,7 @@ Now your navigation is working!
 | --------------- | --------------------------------- |
 | `push(path)`    | Navigate forward to a new screen  |
 | `replace(path)` | Replace current screen            |
-| `go(path)`      | Reset stack and go to screen      |
+| `reset(path)`   | Reset stack and go to screen      |
 | `pop()`         | Go back one screen                |
 | `params`        | Object with route parameters      |
 | `currentPath`   | String of current path (e.g. `/`) |
@@ -144,7 +156,7 @@ const { id } = useRouterContext().params;
 
 ## 🧪 Advanced Ideas
 
-- ✅ Use `<BottomNavigationBar />` inside `<Screen>` to persist across views
+- ✅ Use `<BottomNavigationBar />` inside layout to persist across views
 - 💾 Add `AsyncStorage` to persist navigation state
 - 💡 Animate transitions between screens
 - 🧪 Add query string support (e.g. `/profile?id=123`)
@@ -167,6 +179,10 @@ src/
 │   ├── RouterContext.tsx
 │   ├── routes.ts
 │   └── types.ts
+├── theme/
+│   └── ThemeContext.tsx
+├── hooks/
+│   └── useThemeColor.ts
 ```
 
 > Place the navigation bar in `/components` — it's UI, not routing logic.
