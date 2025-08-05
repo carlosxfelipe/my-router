@@ -15,7 +15,7 @@ type HeaderProps = {
 };
 
 export function Header({ title, icon }: HeaderProps) {
-  const bg = useThemeColor({}, "background");
+  const bg = useThemeColor({}, "header");
   const textColor = useThemeColor({}, "text");
   const router = useRouterContext();
 

@@ -8,7 +8,7 @@ import { Header } from "./src/components/Header";
 
 function MainLayout({ Content }: { Content: React.ComponentType }) {
   const { theme } = useTheme();
-  const bg = useThemeColor({}, "background");
+  const bg = useThemeColor({}, "header");
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: bg }]}>
