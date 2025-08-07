@@ -31,31 +31,31 @@ Create your screens under `src/screens/`. Example:
 src/
 └── screens/
     ├── Home.tsx
+    ├── Orders.tsx
     ├── Profile.tsx
-    └── Settings/
-        └── Edit.tsx
+    └── Settings.tsx
 ```
 
-Each screen can access routing functions via context:
+Each screen can access navigation via context:
 
 ```tsx
-import { Button, View } from "react-native";
+import { ThemedButton } from "../components/ThemedButton";
 import { useRouterContext } from "../router/RouterContext";
 
 export default function Home() {
   const router = useRouterContext();
 
   return (
-    <View>
-      <Button
+    <>
+      <ThemedButton
         title="Go to Profile"
         onPress={() => router.push("/profile/123")}
       />
-      <Button
-        title="Replace with Edit Screen"
-        onPress={() => router.replace("/settings/edit")}
+      <ThemedButton
+        title="Go to Orders"
+        onPress={() => router.push("/orders")}
       />
-    </View>
+    </>
   );
 }
 ```
@@ -64,46 +64,65 @@ export default function Home() {
 
 ### 3. Define Your Routes
 
-Edit `src/router/routes.ts` to define the mapping between paths and screen
-components:
+Edit `src/router/routes.ts`:
 
 ```ts
 import Home from "../screens/Home";
+import Orders from "../screens/Orders";
 import Profile from "../screens/Profile";
-import Edit from "../screens/Settings/Edit";
+import Settings from "../screens/Settings";
 import type { RouteDefinition } from "./types";
 
 export const routeDefinitions: RouteDefinition[] = [
   { path: "/", component: Home },
+  { path: "/orders", component: Orders },
   { path: "/profile/:id", component: Profile },
-  { path: "/settings/edit", component: Edit },
+  { path: "/settings", component: Settings },
 ];
 ```
 
-> Supports dynamic segments like `/profile/:id` which will be available via
+> Supports dynamic segments like `/profile/:id`, accessed via
 > `router.params.id`.
 
 ---
 
-### 4. Use the Router in App.tsx
+### 4. Use the Router in `App.tsx`
 
-Wrap your app with the custom router:
+Wrap your app with the router and theme providers:
 
 ```tsx
 import { SafeAreaView, StatusBar, StyleSheet, View } from "react-native";
 import { useRouter } from "./src/router/router";
-import { ThemeProvider } from "./src/theme/ThemeContext";
+import { ThemeProvider, useTheme } from "./src/theme/ThemeContext";
+import { useThemeColor } from "./src/hooks/useThemeColor";
 import { BottomNavigationBar } from "./src/components/BottomNavigation";
+import { Header } from "./src/components/Header";
 
 function MainLayout({ Content }: { Content: React.ComponentType }) {
+  const { theme } = useTheme();
+  const headerColor = useThemeColor({}, "header");
+  const bottomColor = useThemeColor({}, "bottom");
+  const textColor = useThemeColor({}, "text");
+
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" />
-      <View style={styles.content}>
-        <Content />
+    <>
+      <SafeAreaView style={{ backgroundColor: headerColor }} />
+
+      <View style={styles.container}>
+        <StatusBar
+          backgroundColor={headerColor}
+          barStyle={theme === "dark" ? "light-content" : "dark-content"}
+        />
+        <Header backgroundColor={headerColor} textColor={textColor} />
+        <View style={styles.content}>
+          <Content />
+        </View>
+        <BottomNavigationBar
+          backgroundColor={bottomColor}
+          textColor={textColor}
+        />
       </View>
-      <BottomNavigationBar />
-    </SafeAreaView>
+    </>
   );
 }
 
@@ -156,10 +175,25 @@ const { id } = useRouterContext().params;
 
 ## 🧪 Advanced Ideas
 
-- ✅ Use `<BottomNavigationBar />` inside layout to persist across views
-- 💾 Add `AsyncStorage` to persist navigation state
-- 💡 Animate transitions between screens
-- 🧪 Add query string support (e.g. `/profile?id=123`)
+- ✅ Use `<BottomNavigationBar />` and `<Header />` for persistent layout
+- 🎨 Support light/dark themes with `ThemeContext`
+- 💾 Persist navigation state with `AsyncStorage`
+- 🎬 Animate transitions between screens
+- 🧩 Add query string support (e.g. `/profile?id=123`)
+
+---
+
+## 🧱 Safe Area Insets
+
+By default, we use static fallback values for safe areas.
+
+To use real insets, install and switch to `react-native-safe-area-context`:
+
+```tsx
+// hooks/useSafeInsets.ts
+
+export { useSafeAreaInsets as useSafeInsets } from "react-native-safe-area-context";
+```
 
 ---
 
@@ -168,24 +202,29 @@ const { id } = useRouterContext().params;
 ```
 src/
 ├── components/
-│   └── BottomNavigation.tsx
-├── screens/
-│   ├── Home.tsx
-│   ├── Profile.tsx
-│   └── Settings/
-│       └── Edit.tsx
+│   ├── BottomNavigation.tsx
+│   ├── Header.tsx
+│   ├── ThemedButton.tsx
+│   ├── ThemedText.tsx
+│   └── ThemedView.tsx
+├── hooks/
+│   ├── useSafeInsets.ts
+│   └── useThemeColor.ts
 ├── router/
 │   ├── router.tsx
 │   ├── RouterContext.tsx
 │   ├── routes.ts
 │   └── types.ts
+├── screens/
+│   ├── Home.tsx
+│   ├── Orders.tsx
+│   ├── Profile.tsx
+│   └── Settings.tsx
 ├── theme/
 │   └── ThemeContext.tsx
-├── hooks/
-│   └── useThemeColor.ts
+├── utils/
+│   └── colors.ts
 ```
-
-> Place the navigation bar in `/components` — it's UI, not routing logic.
 
 ---
 
