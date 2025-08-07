@@ -1,14 +1,18 @@
 import { StyleSheet, View } from "react-native";
-import { ThemedView } from "../../components/ThemedView";
-import { ThemedText } from "../../components/ThemedText";
-import { useRouterContext } from "../../router/RouterContext";
-import { ThemedButton } from "../../components/ThemedButton";
+import { ThemedView } from "../components/ThemedView";
+import { ThemedText } from "../components/ThemedText";
+import { useRouterContext } from "../router/RouterContext";
+import { ThemedButton } from "../components/ThemedButton";
 
-export default function Edit() {
+export default function Orders() {
   const router = useRouterContext();
 
   return (
     <ThemedView style={styles.container}>
+      <ThemedText type="subtitle" style={styles.sectionTitle}>
+        Pedidos
+      </ThemedText>
+
       <View style={styles.section}>
         <ThemedText type="subtitle" style={styles.sectionTitle}>
           Ações
@@ -16,7 +20,7 @@ export default function Edit() {
 
         <ThemedButton
           title="Voltar para Home"
-          onPress={() => router.reset("/")}
+          onPress={() => router.push("/")}
         />
       </View>
     </ThemedView>

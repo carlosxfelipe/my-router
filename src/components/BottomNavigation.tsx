@@ -18,7 +18,8 @@ type TabItem = {
 
 const TABS: TabItem[] = [
   { label: "Início", route: "/", emoji: ["🏠", "🏡"] },
-  { label: "Config", route: "/settings/edit", emoji: ["⚙️", "🔧"] },
+  { label: "Pedidos", route: "/orders", emoji: ["📦", "📬"] },
+  { label: "Configurações", route: "/settings", emoji: ["⚙️", "🔧"] },
   { label: "Perfil", route: "/profile/123", emoji: ["👤", "👥"] },
 ];
 

@@ -61,6 +61,7 @@ export const Header = React.memo(function Header({
 
 // Títulos baseados na rota
 function getTitle(path: string) {
+  if (path.startsWith("/orders")) return "Pedidos";
   if (path.startsWith("/profile")) return "Perfil";
   if (path.startsWith("/settings")) return "Configurações";
   return "Início";
@@ -68,6 +69,7 @@ function getTitle(path: string) {
 
 // Emojis por padrão, mas pode ser sobrescrito via prop
 function getIcon(path: string): string {
+  if (path.startsWith("/orders")) return "📦";
   if (path.startsWith("/profile")) return "👤";
   if (path.startsWith("/settings")) return "⚙️";
   return "🏠";

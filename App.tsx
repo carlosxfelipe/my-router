@@ -1,9 +1,4 @@
-import {
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  View,
-} from "react-native";
+import { SafeAreaView, StatusBar, StyleSheet, View } from "react-native";
 import { useRouter } from "./src/router/router";
 import { ThemeProvider, useTheme } from "./src/theme/ThemeContext";
 import { useThemeColor } from "./src/hooks/useThemeColor";

@@ -24,8 +24,13 @@ export default function Home() {
             />
             <View style={styles.spacer} />
             <ThemedButton
-              title="Editar Configurações"
-              onPress={() => router.push("/settings/edit")}
+              title="Ir para Pedidos"
+              onPress={() => router.push("/orders")}
+            />
+            <View style={styles.spacer} />
+            <ThemedButton
+              title="Configurações"
+              onPress={() => router.push("/settings")}
             />
           </View>
         </View>
