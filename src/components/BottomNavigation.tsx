@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { useThemeColor } from "../hooks/useThemeColor";
 import { useRouterContext } from "../router/RouterContext";
+import { useSafeInsets } from "../hooks/useSafeInsets";
 
 type TabItem = {
   label: string;
@@ -29,6 +30,7 @@ function withOpacity(hex: string, opacity: number = 0.6) {
 export const BottomNavigationBar = React.memo(function BottomNavigationBar() {
   const router = useRouterContext();
   const currentPath = router.currentPath;
+  const insets = useSafeInsets();
 
   const backgroundColor = useThemeColor({}, "bottom");
   const textColor = useThemeColor({}, "text");
@@ -53,21 +55,28 @@ export const BottomNavigationBar = React.memo(function BottomNavigationBar() {
   );
 
   return (
-    <View style={[styles.container, { backgroundColor }]}>
-      {tabsToRender.map((tab) => (
-        <TouchableOpacity
-          key={tab.route}
-          style={styles.tab}
-          onPress={() => handlePress(tab.route, tab.isActive)}
-          activeOpacity={0.7}
-          accessibilityRole="button"
-          accessibilityState={{ selected: tab.isActive }}
-        >
-          <Text style={[styles.emoji, { color: tab.color }]}>{tab.emoji}</Text>
-          <Text style={[styles.label, { color: tab.color }]}>{tab.label}</Text>
-        </TouchableOpacity>
-      ))}
-    </View>
+    <>
+      <View style={[styles.container, { backgroundColor }]}>
+        {tabsToRender.map((tab) => (
+          <TouchableOpacity
+            key={tab.route}
+            style={styles.tab}
+            onPress={() => handlePress(tab.route, tab.isActive)}
+            activeOpacity={0.7}
+            accessibilityRole="button"
+            accessibilityState={{ selected: tab.isActive }}
+          >
+            <Text style={[styles.emoji, { color: tab.color }]}>
+              {tab.emoji}
+            </Text>
+            <Text style={[styles.label, { color: tab.color }]}>
+              {tab.label}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+      <View style={[{ height: insets.bottom, backgroundColor }]} />
+    </>
   );
 });
 

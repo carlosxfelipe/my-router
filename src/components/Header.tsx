@@ -1,12 +1,7 @@
 import React, { useMemo } from "react";
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useRouterContext } from "../router/RouterContext";
+import { useSafeInsets } from "../hooks/useSafeInsets";
 
 type HeaderProps = {
   title?: string;
@@ -23,6 +18,7 @@ export const Header = React.memo(function Header({
 }: HeaderProps) {
   const router = useRouterContext();
   const isHome = router.currentPath === "/";
+  const insets = useSafeInsets();
 
   const routeTitle = useMemo(
     () => title || getTitle(router.currentPath),
@@ -36,15 +32,15 @@ export const Header = React.memo(function Header({
 
   const iconElement = useMemo(() => {
     if (!routeIcon) return null;
-    return typeof routeIcon === "string" ? (
-      <Text style={[styles.iconText, { color: textColor }]}>{routeIcon}</Text>
-    ) : (
-      <View style={styles.iconWrapper}>{routeIcon}</View>
-    );
+    return typeof routeIcon === "string"
+      ? <Text style={[styles.iconText, { color: textColor }]}>{routeIcon}</Text>
+      : <View style={styles.iconWrapper}>{routeIcon}</View>;
   }, [routeIcon, textColor]);
 
   return (
-    <View style={[styles.container, { backgroundColor }]}>
+    <View
+      style={[styles.container, { backgroundColor, paddingTop: insets.top }]}
+    >
       {!isHome && (
         <TouchableOpacity
           onPress={router.pop}
@@ -83,7 +79,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 8,
-    paddingTop: Platform.OS === "ios" ? 12 : 8,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: "#ccc",
   },

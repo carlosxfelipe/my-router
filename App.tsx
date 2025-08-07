@@ -1,5 +1,4 @@
 import {
-  Platform,
   SafeAreaView,
   StatusBar,
   StyleSheet,
@@ -20,7 +19,6 @@ function MainLayout({ Content }: { Content: React.ComponentType }) {
 
   return (
     <>
-      {/* SafeArea para o topo (notch) */}
       <SafeAreaView style={{ backgroundColor: headerColor }} />
 
       <View style={styles.container}>
@@ -37,8 +35,6 @@ function MainLayout({ Content }: { Content: React.ComponentType }) {
 
         <View style={{ backgroundColor: bottomColor }}>
           <BottomNavigationBar />
-          {/* Área de gesto no iOS */}
-          {Platform.OS === "ios" && <View style={{ height: 34 }} />}
         </View>
       </View>
     </>
