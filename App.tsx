@@ -28,9 +28,10 @@ function MainLayout({ Content }: { Content: React.ComponentType }) {
           <Content />
         </View>
 
-        <View style={{ backgroundColor: bottomColor }}>
-          <BottomNavigationBar />
-        </View>
+        <BottomNavigationBar
+          backgroundColor={bottomColor}
+          textColor={textColor}
+        />
       </View>
     </>
   );

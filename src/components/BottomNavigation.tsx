@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useThemeColor } from "../hooks/useThemeColor";
 import { useRouterContext } from "../router/RouterContext";
 import { useSafeInsets } from "../hooks/useSafeInsets";
 
@@ -14,6 +13,11 @@ type TabItem = {
   label: string;
   route: string;
   emoji: [string, string]; // [active, inactive]
+};
+
+type BottomNavigationBarProps = {
+  backgroundColor?: string;
+  textColor?: string;
 };
 
 const TABS: TabItem[] = [
@@ -28,13 +32,13 @@ function withOpacity(hex: string, opacity: number = 0.6) {
   return hex + alpha;
 }
 
-export const BottomNavigationBar = React.memo(function BottomNavigationBar() {
+export const BottomNavigationBar = React.memo(function BottomNavigationBar({
+  backgroundColor = "#FFFFFF",
+  textColor = "#000000",
+}: BottomNavigationBarProps) {
   const router = useRouterContext();
   const currentPath = router.currentPath;
   const insets = useSafeInsets();
-
-  const backgroundColor = useThemeColor({}, "bottom");
-  const textColor = useThemeColor({}, "text");
 
   const tabsToRender = useMemo(() => {
     return TABS.map((tab) => {
