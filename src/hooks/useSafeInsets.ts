@@ -1,9 +1,14 @@
-import { Platform, StatusBar } from "react-native";
+import { Dimensions, Platform, StatusBar } from "react-native";
 
 function getSafeBottomInset(): number {
   if (Platform.OS === "ios") return 34; // iPhone X+ gesture area
-  if (Platform.OS === "android") return 16; // estimativa razoável
-  return 0;
+
+  const { height, width } = Dimensions.get("window");
+
+  const aspectRatio = height / width;
+
+  // Tentativa de detectar dispositivos com barra de gestos
+  return aspectRatio > 2.1 ? 24 : 0;
 }
 
 function getSafeTopInset(): number {
@@ -18,4 +23,8 @@ export function useSafeInsets() {
   };
 }
 
-// TODO: import { useSafeAreaInsets } from "react-native-safe-area-context";
+// import { useSafeAreaInsets } from "react-native-safe-area-context";
+
+// export function useSafeInsets() {
+//   return useSafeAreaInsets();
+// }

@@ -1,11 +1,5 @@
 import React, { useCallback, useMemo } from "react";
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useRouterContext } from "../router/RouterContext";
 import { useSafeInsets } from "../hooks/useSafeInsets";
 
@@ -91,17 +85,6 @@ const styles = StyleSheet.create({
     height: 60,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: "#ccc",
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: -2 },
-        shadowOpacity: 0.05,
-        shadowRadius: 4,
-      },
-      android: {
-        elevation: 8,
-      },
-    }),
   },
   tab: {
     flex: 1,
