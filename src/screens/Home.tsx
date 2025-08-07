@@ -1,12 +1,10 @@
 import { ScrollView, StyleSheet, View } from "react-native";
 import { ThemedView } from "../components/ThemedView";
 import { ThemedText } from "../components/ThemedText";
-import { useTheme } from "../theme/ThemeContext";
 import { useRouterContext } from "../router/RouterContext";
 import { ThemedButton } from "../components/ThemedButton";
 
 export default function Home() {
-  const { theme, toggleTheme } = useTheme();
   const router = useRouterContext();
 
   return (
@@ -14,7 +12,7 @@ export default function Home() {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.section}>
           <ThemedText type="subtitle" style={styles.sectionTitle}>
-            Navegação
+            Ações
           </ThemedText>
 
           <View style={styles.buttonGroup}>
@@ -33,24 +31,6 @@ export default function Home() {
               onPress={() => router.push("/settings")}
             />
           </View>
-        </View>
-
-        <View style={styles.section}>
-          <ThemedText type="subtitle" style={styles.sectionTitle}>
-            Aparência
-          </ThemedText>
-
-          <ThemedButton
-            title={`Alternar para tema ${
-              theme === "light" ? "escuro" : "claro"
-            }`}
-            onPress={toggleTheme}
-            iconRight={
-              <View>
-                <ThemedText>🌓</ThemedText>
-              </View>
-            }
-          />
         </View>
       </ScrollView>
     </ThemedView>

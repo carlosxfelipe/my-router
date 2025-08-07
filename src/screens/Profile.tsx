@@ -10,10 +10,6 @@ export default function Profile() {
 
   return (
     <ThemedView style={styles.container}>
-      <ThemedText type="subtitle" style={styles.sectionTitle}>
-        ID do usuário: {id ?? "não informado"}
-      </ThemedText>
-
       <View style={styles.section}>
         <ThemedText type="subtitle" style={styles.sectionTitle}>
           Ações
@@ -24,6 +20,10 @@ export default function Profile() {
           onPress={() => router.push("/")}
         />
       </View>
+
+      <ThemedText type="subtitle" style={styles.sectionTitle}>
+        ID do usuário: {id ?? "não informado"}
+      </ThemedText>
     </ThemedView>
   );
 }

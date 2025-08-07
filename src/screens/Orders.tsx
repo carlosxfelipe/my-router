@@ -9,10 +9,6 @@ export default function Orders() {
 
   return (
     <ThemedView style={styles.container}>
-      <ThemedText type="subtitle" style={styles.sectionTitle}>
-        Pedidos
-      </ThemedText>
-
       <View style={styles.section}>
         <ThemedText type="subtitle" style={styles.sectionTitle}>
           Ações
