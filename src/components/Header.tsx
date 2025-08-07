@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   Platform,
   StyleSheet,
@@ -15,15 +15,33 @@ type HeaderProps = {
   textColor?: string;
 };
 
-export function Header(
-  { title, icon, backgroundColor = "#FFFFFF", textColor = "#000000" }:
-    HeaderProps,
-) {
+export const Header = React.memo(function Header({
+  title,
+  icon,
+  backgroundColor = "#FFFFFF",
+  textColor = "#000000",
+}: HeaderProps) {
   const router = useRouterContext();
-
   const isHome = router.currentPath === "/";
-  const routeTitle = title || getTitle(router.currentPath);
-  const routeIcon = icon ?? getIcon(router.currentPath);
+
+  const routeTitle = useMemo(
+    () => title || getTitle(router.currentPath),
+    [title, router.currentPath],
+  );
+
+  const routeIcon = useMemo(
+    () => icon ?? getIcon(router.currentPath),
+    [icon, router.currentPath],
+  );
+
+  const iconElement = useMemo(() => {
+    if (!routeIcon) return null;
+    return typeof routeIcon === "string" ? (
+      <Text style={[styles.iconText, { color: textColor }]}>{routeIcon}</Text>
+    ) : (
+      <View style={styles.iconWrapper}>{routeIcon}</View>
+    );
+  }, [routeIcon, textColor]);
 
   return (
     <View style={[styles.container, { backgroundColor }]}>
@@ -38,20 +56,12 @@ export function Header(
       )}
 
       <View style={styles.titleContainer}>
-        {routeIcon && (
-          typeof routeIcon === "string"
-            ? (
-              <Text style={[styles.iconText, { color: textColor }]}>
-                {routeIcon}
-              </Text>
-            )
-            : <View style={styles.iconWrapper}>{routeIcon}</View>
-        )}
+        {iconElement}
         <Text style={[styles.title, { color: textColor }]}>{routeTitle}</Text>
       </View>
     </View>
   );
-}
+});
 
 // Títulos baseados na rota
 function getTitle(path: string) {

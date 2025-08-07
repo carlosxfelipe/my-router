@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 import {
   Platform,
   StyleSheet,
@@ -21,39 +21,55 @@ const TABS: TabItem[] = [
   { label: "Perfil", route: "/profile/123", emoji: ["👤", "👥"] },
 ];
 
-export function BottomNavigationBar() {
+function withOpacity(hex: string, opacity: number = 0.6) {
+  const alpha = Math.round(opacity * 255).toString(16).padStart(2, "0");
+  return hex + alpha;
+}
+
+export const BottomNavigationBar = React.memo(function BottomNavigationBar() {
   const router = useRouterContext();
   const currentPath = router.currentPath;
 
   const backgroundColor = useThemeColor({}, "bottom");
   const textColor = useThemeColor({}, "text");
 
+  const tabsToRender = useMemo(() => {
+    return TABS.map((tab) => {
+      const isActive = currentPath === tab.route;
+      return {
+        ...tab,
+        isActive,
+        emoji: isActive ? tab.emoji[0] : tab.emoji[1],
+        color: isActive ? textColor : withOpacity(textColor, 0.6),
+      };
+    });
+  }, [currentPath, textColor]);
+
+  const handlePress = useCallback(
+    (route: string, isActive: boolean) => {
+      if (!isActive) router.push(route);
+    },
+    [router],
+  );
+
   return (
     <View style={[styles.container, { backgroundColor }]}>
-      {TABS.map((tab) => {
-        const isActive = currentPath === tab.route;
-        const emoji = isActive ? tab.emoji[0] : tab.emoji[1];
-        const color = isActive ? textColor : `${textColor}99`;
-
-        return (
-          <TouchableOpacity
-            key={tab.route}
-            style={styles.tab}
-            onPress={() => {
-              if (!isActive) router.push(tab.route);
-            }}
-            activeOpacity={0.7}
-            accessibilityRole="button"
-            accessibilityState={{ selected: isActive }}
-          >
-            <Text style={[styles.emoji, { color }]}>{emoji}</Text>
-            <Text style={[styles.label, { color }]}>{tab.label}</Text>
-          </TouchableOpacity>
-        );
-      })}
+      {tabsToRender.map((tab) => (
+        <TouchableOpacity
+          key={tab.route}
+          style={styles.tab}
+          onPress={() => handlePress(tab.route, tab.isActive)}
+          activeOpacity={0.7}
+          accessibilityRole="button"
+          accessibilityState={{ selected: tab.isActive }}
+        >
+          <Text style={[styles.emoji, { color: tab.color }]}>{tab.emoji}</Text>
+          <Text style={[styles.label, { color: tab.color }]}>{tab.label}</Text>
+        </TouchableOpacity>
+      ))}
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {
