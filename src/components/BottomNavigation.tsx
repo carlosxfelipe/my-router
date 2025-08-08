@@ -2,11 +2,12 @@ import React, { useCallback, useMemo } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useRouterContext } from "../router/RouterContext";
 import { useSafeInsets } from "../hooks/useSafeInsets";
+import { Icon } from "../components/Icon";
 
 type TabItem = {
   label: string;
   route: string;
-  emoji: [string, string]; // [active, inactive]
+  icon: [string, string]; // [ativo, inativo]
 };
 
 type BottomNavigationBarProps = {
@@ -15,10 +16,18 @@ type BottomNavigationBarProps = {
 };
 
 const TABS: TabItem[] = [
-  { label: "Início", route: "/", emoji: ["🏠", "🏡"] },
-  { label: "Pedidos", route: "/orders", emoji: ["📦", "📬"] },
-  { label: "Configurações", route: "/settings", emoji: ["⚙️", "🔧"] },
-  { label: "Perfil", route: "/profile/123", emoji: ["👤", "👥"] },
+  { label: "Início", route: "/", icon: ["home", "home-outline"] },
+  {
+    label: "Pedidos",
+    route: "/orders",
+    icon: ["package-variant", "package-variant-closed"],
+  },
+  { label: "Configurações", route: "/settings", icon: ["cog", "cog-outline"] },
+  {
+    label: "Perfil",
+    route: "/profile/123",
+    icon: ["account", "account-outline"],
+  },
 ];
 
 function withOpacity(hex: string, opacity: number = 0.6) {
@@ -40,7 +49,7 @@ export const BottomNavigationBar = React.memo(function BottomNavigationBar({
       return {
         ...tab,
         isActive,
-        emoji: isActive ? tab.emoji[0] : tab.emoji[1],
+        iconName: isActive ? tab.icon[0] : tab.icon[1],
         color: isActive ? textColor : withOpacity(textColor, 0.6),
       };
     });
@@ -65,9 +74,12 @@ export const BottomNavigationBar = React.memo(function BottomNavigationBar({
             accessibilityRole="button"
             accessibilityState={{ selected: tab.isActive }}
           >
-            <Text style={[styles.emoji, { color: tab.color }]}>
-              {tab.emoji}
-            </Text>
+            <Icon
+              name={tab.iconName}
+              color={tab.color}
+              size={24}
+              style={styles.icon}
+            />
             <Text style={[styles.label, { color: tab.color }]}>
               {tab.label}
             </Text>
@@ -91,8 +103,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  emoji: {
-    fontSize: 20,
+  icon: {
+    marginBottom: 2,
   },
   label: {
     fontSize: 11,
