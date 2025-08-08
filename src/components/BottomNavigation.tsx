@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useRouterContext } from "../router/RouterContext";
-import { useSafeInsets } from "../hooks/useSafeInsets";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon } from "../components/Icon";
 
 type TabItem = {
@@ -41,7 +41,7 @@ export const BottomNavigationBar = React.memo(function BottomNavigationBar({
 }: BottomNavigationBarProps) {
   const router = useRouterContext();
   const currentPath = router.currentPath;
-  const insets = useSafeInsets();
+  const insets = useSafeAreaInsets();
 
   const tabsToRender = useMemo(() => {
     return TABS.map((tab) => {

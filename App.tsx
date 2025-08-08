@@ -1,6 +1,7 @@
 import { SafeAreaView, StatusBar, StyleSheet, View } from "react-native";
-import { useRouter } from "./src/router/router";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ThemeProvider, useTheme } from "./src/theme/ThemeContext";
+import { useRouter } from "./src/router/router";
 import { useThemeColor } from "./src/hooks/useThemeColor";
 import { BottomNavigationBar } from "./src/components/BottomNavigation";
 import { Header } from "./src/components/Header";
@@ -41,13 +42,15 @@ export default function App() {
   const { RouterOutlet } = useRouter();
 
   return (
-    <ThemeProvider>
-      <RouterOutlet>
-        {({ component: CurrentScreen }: { component: RouteComponent }) => (
-          <MainLayout Content={CurrentScreen} />
-        )}
-      </RouterOutlet>
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <ThemeProvider>
+        <RouterOutlet>
+          {({ component: CurrentScreen }: { component: RouteComponent }) => (
+            <MainLayout Content={CurrentScreen} />
+          )}
+        </RouterOutlet>
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 }
 

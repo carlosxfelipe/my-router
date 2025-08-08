@@ -1,7 +1,6 @@
 import React, { useMemo } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useRouterContext } from "../router/RouterContext";
-import { useSafeInsets } from "../hooks/useSafeInsets";
 import { Icon } from "../components/Icon";
 
 type HeaderProps = {
@@ -17,7 +16,6 @@ export const Header = React.memo(function Header({
 }: HeaderProps) {
   const router = useRouterContext();
   const isHome = router.currentPath === "/";
-  const insets = useSafeInsets();
 
   const routeTitle = useMemo(
     () => title || getTitle(router.currentPath),
@@ -28,7 +26,7 @@ export const Header = React.memo(function Header({
     <View
       style={[
         styles.container,
-        { backgroundColor, paddingTop: insets.top },
+        { backgroundColor },
       ]}
     >
       {!isHome && (
@@ -64,11 +62,11 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
+    height: 56,
     paddingHorizontal: 16,
-    paddingVertical: 8,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: "#ccc",
-    justifyContent: "space-between",
   },
   backButton: {
     width: 32,
