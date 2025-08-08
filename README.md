@@ -92,11 +92,13 @@ Wrap your app with the router and theme providers:
 
 ```tsx
 import { SafeAreaView, StatusBar, StyleSheet, View } from "react-native";
-import { useRouter } from "./src/router/router";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ThemeProvider, useTheme } from "./src/theme/ThemeContext";
+import { useRouter } from "./src/router/router";
 import { useThemeColor } from "./src/hooks/useThemeColor";
 import { BottomNavigationBar } from "./src/components/BottomNavigation";
 import { Header } from "./src/components/Header";
+import { RouteComponent } from "./src/router/types";
 
 function MainLayout({ Content }: { Content: React.ComponentType }) {
   const { theme } = useTheme();
@@ -113,10 +115,13 @@ function MainLayout({ Content }: { Content: React.ComponentType }) {
           backgroundColor={headerColor}
           barStyle={theme === "dark" ? "light-content" : "dark-content"}
         />
+
         <Header backgroundColor={headerColor} textColor={textColor} />
+
         <View style={styles.content}>
           <Content />
         </View>
+
         <BottomNavigationBar
           backgroundColor={bottomColor}
           textColor={textColor}
@@ -130,27 +135,36 @@ export default function App() {
   const { RouterOutlet } = useRouter();
 
   return (
-    <ThemeProvider>
-      <RouterOutlet>
-        {({ component: CurrentScreen }) => (
-          <MainLayout Content={CurrentScreen} />
-        )}
-      </RouterOutlet>
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <ThemeProvider>
+        <RouterOutlet>
+          {({ component: CurrentScreen }: { component: RouteComponent }) => (
+            <MainLayout Content={CurrentScreen} />
+          )}
+        </RouterOutlet>
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  content: { flex: 1 },
+  container: {
+    flex: 1,
+  },
+  content: {
+    flex: 1,
+  },
 });
 ```
 
 ---
 
-### 5. Done 🎉
+### 5. Install Required Dependencies
 
-Now your navigation is working!
+Install the required packages for vector icons and safe area support:
+
+- [`react-native-icons-setup.md`](./react-native-icons-setup.md)
+- [`react-native-safe-area-context.md`](./react-native-safe-area-context.md)
 
 ---
 
@@ -175,56 +189,9 @@ const { id } = useRouterContext().params;
 
 ## 🧪 Advanced Ideas
 
-- ✅ Use `<BottomNavigationBar />` and `<Header />` for persistent layout
-- 🎨 Support light/dark themes with `ThemeContext`
 - 💾 Persist navigation state with `AsyncStorage`
 - 🎬 Animate transitions between screens
 - 🧩 Add query string support (e.g. `/profile?id=123`)
-
----
-
-## 🧱 Safe Area Insets
-
-By default, we use static fallback values for safe areas.
-
-To use real insets, install and switch to `react-native-safe-area-context`:
-
-```tsx
-// hooks/useSafeInsets.ts
-
-export { useSafeAreaInsets as useSafeInsets } from "react-native-safe-area-context";
-```
-
----
-
-## 📁 Recommended Structure
-
-```
-src/
-├── components/
-│   ├── BottomNavigation.tsx
-│   ├── Header.tsx
-│   ├── ThemedButton.tsx
-│   ├── ThemedText.tsx
-│   └── ThemedView.tsx
-├── hooks/
-│   ├── useSafeInsets.ts
-│   └── useThemeColor.ts
-├── router/
-│   ├── router.tsx
-│   ├── RouterContext.tsx
-│   ├── routes.ts
-│   └── types.ts
-├── screens/
-│   ├── Home.tsx
-│   ├── Orders.tsx
-│   ├── Profile.tsx
-│   └── Settings.tsx
-├── theme/
-│   └── ThemeContext.tsx
-├── utils/
-│   └── colors.ts
-```
 
 ---
 
