@@ -23,30 +23,24 @@ export const Header = React.memo(function Header({
   );
 
   return (
-    <View
-      style={[
-        styles.container,
-        { backgroundColor },
-      ]}
-    >
-      {!isHome && (
-        <TouchableOpacity
-          onPress={router.pop}
-          style={styles.backButton}
-          accessibilityRole="button"
-        >
-          <Icon name="chevron-left" size={26} color={textColor} />
-        </TouchableOpacity>
-      )}
-
-      <View style={styles.titleWrapper}>
-        <Text style={[styles.title, { color: textColor }]}>
-          {routeTitle}
-        </Text>
+    <View style={[styles.container, { backgroundColor }]}>
+      <View style={styles.sideWrapper}>
+        {!isHome && (
+          <TouchableOpacity
+            onPress={router.pop}
+            style={styles.backButton}
+            accessibilityRole="button"
+          >
+            <Icon name="chevron-left" size={26} color={textColor} />
+          </TouchableOpacity>
+        )}
       </View>
 
-      {/* Placeholder para alinhar título ao centro */}
-      {!isHome && <View style={styles.backButton} />}
+      <View style={styles.titleWrapper}>
+        <Text style={[styles.title, { color: textColor }]}>{routeTitle}</Text>
+      </View>
+
+      <View style={styles.sideWrapper} />
     </View>
   );
 });
@@ -68,9 +62,15 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: "#ccc",
   },
+  sideWrapper: {
+    width: 32,
+    alignItems: "flex-start",
+    justifyContent: "center",
+  },
   backButton: {
     width: 32,
     alignItems: "flex-start",
+    justifyContent: "center",
   },
   titleWrapper: {
     flex: 1,
