@@ -1,5 +1,5 @@
 import React, { useMemo, useReducer } from "react";
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 import type { RouteComponent, Router } from "./types";
 import { routeDefinitions } from "./routes";
 import { RouterProvider } from "./RouterContext";
@@ -59,20 +59,20 @@ function reduce(state: NavState, action: Action): NavState {
         // mesmo path: só trocar para a aba alvo
         return { ...state, activeTab: targetTab };
       }
-      const next = [...targetStack, {
-        key: `${targetTab}-${Date.now()}`,
-        path: action.path,
-      }];
+      const next = [
+        ...targetStack,
+        { key: `${targetTab}-${Date.now()}`, path: action.path },
+      ];
       return { ...withStack(targetTab, next), activeTab: targetTab };
     }
 
     case "REPLACE": {
       const targetTab = tabForPath(action.path);
       const targetStack = state.stacks[targetTab];
-      const next = [...targetStack.slice(0, -1), {
-        key: `${targetTab}-${Date.now()}`,
-        path: action.path,
-      }];
+      const next = [
+        ...targetStack.slice(0, -1),
+        { key: `${targetTab}-${Date.now()}`, path: action.path },
+      ];
       return { ...withStack(targetTab, next), activeTab: targetTab };
     }
 
@@ -133,13 +133,49 @@ export function useRouter(): { RouterOutlet: RouteComponent } {
     // (futuro) switchTab: (tab: TabKey) => dispatch({ type: "TAB_TO", tab }),
   };
 
+  const KeepMountedRenderer: RouteComponent = (props) => {
+    const hasKeepMounted = routeDefinitions.some((r) => r.keepMounted);
+
+    if (!hasKeepMounted) {
+      const Active = CurrentComponent;
+      return <Active {...props} />;
+    }
+
+    return (
+      <>
+        {routeDefinitions.map((route) => {
+          const res = matchPath(route.path, currentPath);
+          const isActive = res.matched;
+          const Comp = route.component;
+
+          if (route.keepMounted) {
+            return (
+              <View
+                key={route.path}
+                style={{ flex: 1, display: isActive ? "flex" : "none" }}
+              >
+                <Comp {...props} />
+              </View>
+            );
+          }
+
+          if (isActive) {
+            return <Comp key={route.path} {...props} />;
+          }
+
+          return null;
+        })}
+      </>
+    );
+  };
+
   const RouterOutlet: React.FC<ScreenProps> = ({ children, ...props }) => (
     <RouterProvider value={api}>
       {typeof children === "function"
-        ? children({ component: CurrentComponent })
+        ? children({ component: KeepMountedRenderer })
         : (
           <>
-            <CurrentComponent {...props} />
+            <KeepMountedRenderer {...props} />
             {children}
           </>
         )}
