@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useRouterContext } from "../router/RouterContext";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon } from "../components/Icon";
 
 type TabItem = {
@@ -41,7 +40,6 @@ export const BottomNavigationBar = React.memo(function BottomNavigationBar({
 }: BottomNavigationBarProps) {
   const router = useRouterContext();
   const currentPath = router.currentPath;
-  const insets = useSafeAreaInsets();
 
   const tabsToRender = useMemo(() => {
     return TABS.map((tab) => {
@@ -63,31 +61,28 @@ export const BottomNavigationBar = React.memo(function BottomNavigationBar({
   );
 
   return (
-    <>
-      <View style={[styles.container, { backgroundColor }]}>
-        {tabsToRender.map((tab) => (
-          <TouchableOpacity
-            key={tab.route}
-            style={styles.tab}
-            onPress={() => handlePress(tab.route, tab.isActive)}
-            activeOpacity={0.7}
-            accessibilityRole="button"
-            accessibilityState={{ selected: tab.isActive }}
-          >
-            <Icon
-              name={tab.iconName}
-              color={tab.color}
-              size={24}
-              style={styles.icon}
-            />
-            <Text style={[styles.label, { color: tab.color }]}>
-              {tab.label}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-      <View style={[{ height: insets.bottom, backgroundColor }]} />
-    </>
+    <View style={[styles.container, { backgroundColor }]}>
+      {tabsToRender.map((tab) => (
+        <TouchableOpacity
+          key={tab.route}
+          style={styles.tab}
+          onPress={() => handlePress(tab.route, tab.isActive)}
+          activeOpacity={0.7}
+          accessibilityRole="button"
+          accessibilityState={{ selected: tab.isActive }}
+        >
+          <Icon
+            name={tab.iconName}
+            color={tab.color}
+            size={24}
+            style={styles.icon}
+          />
+          <Text style={[styles.label, { color: tab.color }]}>
+            {tab.label}
+          </Text>
+        </TouchableOpacity>
+      ))}
+    </View>
   );
 });
 

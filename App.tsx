@@ -34,6 +34,11 @@ function MainLayout({ Content }: { Content: React.ComponentType }) {
           backgroundColor={bottomColor}
           textColor={textColor}
         />
+
+        <SafeAreaView
+          edges={["bottom"]}
+          style={{ backgroundColor: bottomColor }}
+        />
       </View>
     </>
   );
