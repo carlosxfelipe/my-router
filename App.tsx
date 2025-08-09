@@ -6,6 +6,7 @@ import { useThemeColor } from "./src/hooks/useThemeColor";
 import { BottomNavigationBar } from "./src/components/BottomNavigation";
 import { Header } from "./src/components/Header";
 import { RouteComponent } from "./src/router/types";
+import { BackAware } from "./src/router/BackAware";
 
 function MainLayout({ Content }: { Content: React.ComponentType }) {
   const { theme } = useTheme();
@@ -52,7 +53,10 @@ export default function App() {
       <ThemeProvider>
         <RouterOutlet>
           {({ component: CurrentScreen }: { component: RouteComponent }) => (
-            <MainLayout Content={CurrentScreen} />
+            <>
+              <BackAware />
+              <MainLayout Content={CurrentScreen} />
+            </>
           )}
         </RouterOutlet>
       </ThemeProvider>
