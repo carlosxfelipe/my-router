@@ -25,7 +25,7 @@ const TABS: TabItem[] = [
   { label: "Configurações", route: "/settings", icon: ["cog", "cog-outline"] },
   {
     label: "Perfil",
-    route: "/profile/123",
+    route: "/profile/:id",
     icon: ["account", "account-outline"],
   },
 ];

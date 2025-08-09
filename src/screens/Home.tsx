@@ -7,6 +7,8 @@ import { ThemedButton } from "../components/ThemedButton";
 export default function Home() {
   const router = useRouterContext();
 
+  const userId = "123";
+
   return (
     <ThemedView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -17,8 +19,8 @@ export default function Home() {
 
           <View style={styles.buttonGroup}>
             <ThemedButton
-              title="Ir para Perfil do Usuário 123"
-              onPress={() => router.push("/profile/123")}
+              title={`Ir para Perfil do Usuário ${userId}`}
+              onPress={() => router.push(`/profile/${userId}`)}
             />
             <View style={styles.spacer} />
             <ThemedButton

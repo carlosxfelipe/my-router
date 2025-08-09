@@ -6,7 +6,9 @@ import { ThemedButton } from "../components/ThemedButton";
 
 export default function Profile() {
   const router = useRouterContext();
-  const { id } = router.params;
+  // const { id } = router.params;
+  const rawId = router.params?.id?.trim();
+  const id = !rawId || rawId.startsWith(":") ? "não informado" : rawId;
 
   return (
     <ThemedView style={styles.container}>
@@ -17,12 +19,12 @@ export default function Profile() {
 
         <ThemedButton
           title="Voltar para Home"
-          onPress={() => router.push("/")}
+          onPress={() => router.reset("/")}
         />
       </View>
 
       <ThemedText type="subtitle" style={styles.sectionTitle}>
-        ID do usuário: {id ?? "não informado"}
+        ID do usuário: {id}
       </ThemedText>
     </ThemedView>
   );

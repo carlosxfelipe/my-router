@@ -1,5 +1,5 @@
-import { SafeAreaView, StatusBar, StyleSheet, View } from "react-native";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { StatusBar, StyleSheet, View } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { ThemeProvider, useTheme } from "./src/theme/ThemeContext";
 import { useRouter } from "./src/router/router";
 import { useThemeColor } from "./src/hooks/useThemeColor";
@@ -15,11 +15,12 @@ function MainLayout({ Content }: { Content: React.ComponentType }) {
 
   return (
     <>
-      <SafeAreaView style={{ backgroundColor: headerColor }} />
+      <SafeAreaView edges={["top"]} style={{ backgroundColor: headerColor }} />
 
       <View style={styles.container}>
         <StatusBar
-          backgroundColor={headerColor}
+          translucent
+          backgroundColor="transparent"
           barStyle={theme === "dark" ? "light-content" : "dark-content"}
         />
 
