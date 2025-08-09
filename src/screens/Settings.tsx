@@ -20,7 +20,7 @@ export default function Settings() {
         </ThemedText>
 
         <ThemedButton
-          title="Voltar para Home"
+          title="Voltar para Início"
           onPress={() => router.reset("/")}
         />
       </View>

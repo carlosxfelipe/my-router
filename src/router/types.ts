@@ -5,6 +5,7 @@ export type Router = {
   replace: (path: string) => void;
   params: Record<string, string>;
   currentPath: string;
+  canGoBack: boolean;
 };
 
 export type RouteComponent = React.ComponentType<any>;

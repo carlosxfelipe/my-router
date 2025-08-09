@@ -18,7 +18,7 @@ export default function Profile() {
         </ThemedText>
 
         <ThemedButton
-          title="Voltar para Home"
+          title="Voltar para Início"
           onPress={() => router.reset("/")}
         />
       </View>

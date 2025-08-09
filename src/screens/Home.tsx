@@ -20,7 +20,7 @@ export default function Home() {
           <View style={styles.buttonGroup}>
             <ThemedButton
               title={`Ir para Perfil do Usuário ${userId}`}
-              onPress={() => router.push(`/profile/${userId}`)}
+              onPress={() => router.replace(`/profile/${userId}`)}
             />
             <View style={styles.spacer} />
             <ThemedButton

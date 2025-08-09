@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useRouterContext } from "../router/RouterContext";
+import { matchPath } from "../router/matchPath";
 import { Icon } from "../components/Icon";
 
 type TabItem = {
@@ -43,7 +44,7 @@ export const BottomNavigationBar = React.memo(function BottomNavigationBar({
 
   const tabsToRender = useMemo(() => {
     return TABS.map((tab) => {
-      const isActive = currentPath === tab.route;
+      const isActive = matchPath(tab.route, currentPath).matched;
       return {
         ...tab,
         isActive,

@@ -15,7 +15,7 @@ export default function Orders() {
         </ThemedText>
 
         <ThemedButton
-          title="Voltar para Home"
+          title="Voltar para Início"
           onPress={() => router.push("/")}
         />
       </View>

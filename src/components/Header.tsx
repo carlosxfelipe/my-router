@@ -1,3 +1,4 @@
+// src/components/Header.tsx
 import React, { useMemo } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useRouterContext } from "../router/RouterContext";
@@ -15,7 +16,6 @@ export const Header = React.memo(function Header({
   textColor = "#000000",
 }: HeaderProps) {
   const router = useRouterContext();
-  const isHome = router.currentPath === "/";
 
   const routeTitle = useMemo(
     () => title || getTitle(router.currentPath),
@@ -25,7 +25,7 @@ export const Header = React.memo(function Header({
   return (
     <View style={[styles.container, { backgroundColor }]}>
       <View style={styles.sideWrapper}>
-        {!isHome && (
+        {router.canGoBack && (
           <TouchableOpacity
             onPress={router.pop}
             style={styles.backButton}
@@ -67,17 +67,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "center",
   },
-  backButton: {
-    width: 32,
-    alignItems: "flex-start",
-    justifyContent: "center",
-  },
-  titleWrapper: {
-    flex: 1,
-    alignItems: "center",
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: "600",
-  },
+  backButton: { width: 32, alignItems: "flex-start", justifyContent: "center" },
+  titleWrapper: { flex: 1, alignItems: "center" },
+  title: { fontSize: 18, fontWeight: "600" },
 });
