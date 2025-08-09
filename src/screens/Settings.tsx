@@ -4,10 +4,13 @@ import { ThemedText } from "../components/ThemedText";
 import { useRouterContext } from "../router/RouterContext";
 import { ThemedButton } from "../components/ThemedButton";
 import { useTheme } from "../theme/ThemeContext";
+import { Icon } from "../components/Icon";
+import { useThemeColor } from "../hooks/useThemeColor";
 
 export default function Settings() {
   const { theme, toggleTheme } = useTheme();
   const router = useRouterContext();
+  const iconColor = useThemeColor({}, "inverseOnSurface");
 
   return (
     <ThemedView style={styles.container}>
@@ -31,9 +34,10 @@ export default function Settings() {
           title={`Alternar para tema ${theme === "light" ? "escuro" : "claro"}`}
           onPress={toggleTheme}
           iconRight={
-            <View>
-              <ThemedText>🌓</ThemedText>
-            </View>
+            <Icon
+              name={theme === "light" ? "weather-night" : "weather-sunny"}
+              color={iconColor}
+            />
           }
         />
       </View>
